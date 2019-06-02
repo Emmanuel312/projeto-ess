@@ -9,17 +9,18 @@ export const Container = styled(LinearGradient).attrs(
 })`
     flex: 1;
     align-items: center;
+    justify-content: center;
 `
 
 export const Logo = styled.Text`
-    margin-top: 150px;
+    margin-bottom: 20px;
     font-size: 50px;
     color: #151515;
     font-family: Montserrat-Light;
     text-align: center;
 `
 export const ViewText = styled.View`
-    margin-top: 10px;
+    
     display: flex;
     align-items: center;
     width: 100%;
@@ -57,7 +58,7 @@ export const LoginButton = styled.TouchableOpacity`
     width: 110px;
     height: 40px;
     border-radius: 5px;
-    background: #151515;
+    background: ${props => props.disabled? "gray" : "#151515"}
 
 `
 export const LoginText = styled.Text`

@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import { View,Text } from 'react-native'
-// import { Container } from './styles';
+import { View,Text,Animated } from 'react-native'
+import { Container } from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default class Login extends Component
 {
+
     render()
     {
         return (
-            <View>
-                <Text>Main</Text>
-            </View>
+            <Container>
+                <Icon name="bluetooth-b" size={200} color="white" />
+            </Container>
         )
     }
 }

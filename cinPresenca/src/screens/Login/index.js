@@ -1,42 +1,66 @@
 import React, { Component } from 'react'
-import { TouchableOpacity,Alert,KeyboardAvoidingView } from 'react-native'
+import { TouchableOpacity,ActivityIndicator } from 'react-native'
 import { Container,Logo,Input,ViewText,UnderlineText,ForgetView,LoginButton,LoginText } from './styles';
+import firebase from 'react-native-firebase';
+import Loader from 'react-native-modal-loader'
 
 export default class Login extends Component
 {
     state = 
     {
-        cpf: '',
-        password: ''
+        email: '',
+        password: '',
+        loading: false,
     }
 
-    handleLogin = () =>
+    handleLogin = async () =>
     {
-        Alert.alert('Login',`voce logou com o cpf='${this.state.cpf}' e a senha='${this.state.password}'`)
-        this.props.navigation.navigate('Main')
+        this.setState({email:'',password:''})
+        this.setState({loading:true})
+        try
+        {
+            const { email,password } = this.state
+
+            const user = await firebase.auth().signInWithEmailAndPassword(email,password)
+            this.setState({loading:false})
+            if(user)
+            {
+                setTimeout(() => this.props.navigation.navigate('Main'),250)
+            }
+                
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
     }
 
     render()
-    {
+    {   
+        const { email,password,loading } = this.state
         return (
             <Container>
                 <Logo>{`Cin\nPresença`}</Logo>
                 <ViewText>
-                    <Input placeholder="Digite seu cpf" value={this.state.cpf} onChangeText={cpf => this.setState({cpf})} autoCorrect={false} autoFocus autoCapitalize = 'none' keyboardType='numeric' />
-                    <Input placeholder="Digite sua senha" secureTextEntry value={this.state.password} onChangeText={password => this.setState({password}) } autoCorrect={false} autoCapitalize = 'none' />
+                    <Input placeholder="Digite seu email" value={email} onChangeText={email => this.setState({email})} autoCorrect={false} autoFocus autoCapitalize = 'none' keyboardType='email-address' />
+                    <Input placeholder="Digite sua senha" secureTextEntry value={password} onChangeText={password => this.setState({password}) } autoCorrect={false} autoCapitalize = 'none' />
                 </ViewText>
                 <ForgetView>
                     <TouchableOpacity>
                         <UnderlineText>esqueceu sua senha?</UnderlineText>
                     </TouchableOpacity>
                 </ForgetView>
-                <LoginButton onPress={this.handleLogin}>
+                <LoginButton onPress={this.handleLogin} disabled={!(email && password)}>
                     <LoginText>Presente</LoginText>
                 </LoginButton>
                 <TouchableOpacity>
                     <UnderlineText>não possui uma conta?</UnderlineText>
                 </TouchableOpacity>
-            </Container>       
+                <Loader color="#50B4F2" size="large" loading={loading}></Loader>
+                
+                
+                
+            </Container>    
         )
     }
 }
