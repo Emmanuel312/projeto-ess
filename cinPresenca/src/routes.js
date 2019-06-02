@@ -16,5 +16,4 @@ const Routes = createSwitchNavigator(
 
 })
 
-
 export default createAppContainer(Routes)

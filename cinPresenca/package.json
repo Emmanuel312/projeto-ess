@@ -12,6 +12,7 @@
     "react-native-ble-manager": "^6.6.4",
     "react-native-firebase": "^5.4.2",
     "react-native-gesture-handler": "^1.2.2",
+    "react-native-linear-gradient": "^2.5.4",
     "react-navigation": "^3.11.0",
     "styled-components": "^4.2.1"
   },
@@ -25,5 +26,8 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "rnpm": {
+    "assets": ["./src/assets/fonts"]
+ }
 }
