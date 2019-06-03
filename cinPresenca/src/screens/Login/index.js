@@ -35,6 +35,11 @@ export default class Login extends Component
         }
     }
 
+    handleRegister = () =>
+    {
+        this.props.navigation.navigate('Register')
+    }
+
     render()
     {   
         const { email,password,loading } = this.state
@@ -53,7 +58,7 @@ export default class Login extends Component
                 <LoginButton onPress={this.handleLogin} disabled={!(email && password)}>
                     <LoginText>Presente</LoginText>
                 </LoginButton>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this.handleRegister}>
                     <UnderlineText>não possui uma conta?</UnderlineText>
                 </TouchableOpacity>
                 <Loader color="#50B4F2" size="large" loading={loading}></Loader>

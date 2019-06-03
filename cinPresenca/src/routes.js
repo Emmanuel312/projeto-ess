@@ -13,7 +13,6 @@ const Routes = createSwitchNavigator(
     Login,
     Register,
     MainBottom
-
 })
 
 export default createAppContainer(Routes)
