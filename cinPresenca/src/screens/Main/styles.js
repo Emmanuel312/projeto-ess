@@ -11,3 +11,11 @@ export const Container = styled(LinearGradient).attrs(
     align-items: center;
     justify-content: center;
 `
+export const AlertText = styled.Text`
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 30px;
+
+
+`

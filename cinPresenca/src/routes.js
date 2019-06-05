@@ -5,14 +5,17 @@ import Main from './screens/Main'
 
 const MainBottom = createBottomTabNavigator(
 {
-    Main
+    Main,
+    Login,
+    Register,
 })
 
 const Routes = createSwitchNavigator(
 {   
+    MainBottom,
     Login,
     Register,
-    MainBottom
+    
 })
 
 export default createAppContainer(Routes)
