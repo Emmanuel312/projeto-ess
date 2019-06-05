@@ -42,7 +42,7 @@ export const RegisterButton = styled.TouchableOpacity`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 5px;
     width: 110px;
     height: 40px;
     border-radius: 5px;

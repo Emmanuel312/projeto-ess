@@ -20,7 +20,7 @@ export default class Login extends Component
             try
             {
                 const create = await firebase.auth().createUserWithEmailAndPassword(email,password)
-                firebase.firestore().collection('registerUsers').add({_id:create.user._user.uid,login:email.split('@')[0],cpf,email})
+                firebase.database().ref('registerUsers/' + create.user._user.uid).set({_id:create.user._user.uid,login:email.split('@')[0],cpf,email})
                 .then(data => this.props.navigation.navigate('Login'))
                 .catch(err => console.log(err))
                 
@@ -41,7 +41,7 @@ export default class Login extends Component
         const {cpf,email,password,confirmPassword} = this.state
         return (
            <Container>
-               <Logo>Cin{'\n'}Presença</Logo>
+                <Logo>Cin{'\n'}Presença</Logo>
                 <ViewText>
                     <Input placeholder="Digite seu cpf" value={cpf} onChangeText={cpf => this.setState({cpf})} autoCorrect={false} autoCapitalize = 'none' keyboardType='numeric' />
                     <Input placeholder="Digite seu email" value={email} onChangeText={email => this.setState({email})} autoCorrect={false}  autoCapitalize = 'none' keyboardType='email-address' />

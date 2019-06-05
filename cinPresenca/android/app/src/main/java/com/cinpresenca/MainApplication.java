@@ -8,6 +8,7 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage; 
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import it.innove.BleManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -35,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebasePackage(),
             new BleManagerPackage(),
             new RNFirebaseAuthPackage(),
-            new RNFirebaseFirestorePackage()
+            new RNFirebaseFirestorePackage(),
+            new RNFirebaseDatabasePackage()
       );
     }
 

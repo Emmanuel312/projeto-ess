@@ -9,7 +9,7 @@ const MainBottom = createBottomTabNavigator(
 })
 
 const Routes = createSwitchNavigator(
-{
+{   
     Login,
     Register,
     MainBottom
