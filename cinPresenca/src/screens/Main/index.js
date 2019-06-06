@@ -33,14 +33,23 @@ export default class Login extends Component
             console.log('The user refuse to enable bluetooth')
         })
         })
-        setTimeout(this.scan,3000)
+        this.interval = setInterval(() => this.scan(),10000)
             
     }
+
+    componentWillUnmount()
+    {
+        clearInterval(this.interval);
+        this.handlerDiscover.remove();
+    }
+
     scan = () =>
     {
         BleManager.scan([], 3, true).then((results) => {
-            //console.log(results)
+            console.log(results)
         }).catch(err => console.log(err))
+        
+
     }
     handleDiscoverPeripheral = async peripheral =>
     {
@@ -50,8 +59,9 @@ export default class Login extends Component
             console.log('Got ble peripheral', peripheral);
             peripherals.set(peripheral.id, peripheral);
             this.setState({ peripherals })
-            await firebase.database().ref(`usersTeste/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
+            
         }
+        await firebase.database().ref(`usersTeste/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
     }
     render()
     {
