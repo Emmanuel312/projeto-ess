@@ -12,7 +12,6 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 export default class Login extends Component
 {
-
     state =
     {
         peripherals: new Map(),
@@ -22,48 +21,19 @@ export default class Login extends Component
     }
     async componentDidMount()
     {
-        
         const user = await firebase.auth().currentUser
         this.setState({user})
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
-        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
-        .then(data => this.setState({locationEnable: true})).catch(err => console.log('ola'))
-        BleManager.enableBluetooth()
-        .then(() => 
+        await this.enableGps()
+        await this.enableBlue()
+
+        BleManager.start({showAlert: true})
+        .then(() =>
         {
-            this.setState({bluetoothEnable: true})
-            console.log('The bluetooth is already enabled or the user confirm')
-            BleManager.start({showAlert: true})
-            .then(() =>
-            {
-                console.log('Module Started')
-                this.interval = setInterval(() =>
-                {
-                    if(this.state.bluetoothEnable && this.state.locationEnable)
-                        this.scan()
-                    else
-                    {
-                        console.log(this.state.bluetoothEnable,this.state.locationEnable)
-                        Alert.alert("Ativar","Precisamos do seu bluetooth e gps ativados")
-                    }
-                        
-                },10000)
-            })
-            .catch((error) =>
-            {
-                // Failure code
-                console.log('Module doesnt started')
-            })
+            console.log('Module Started')
+            this.checkBlueAndGps()
         })
-        .catch((error) =>
-        {
-            // Failure code
-            console.log('The user refuse to enable bluetooth')
-        })
-        
-       
-       
-            
+        .catch((error) => { console.log('Module doesnt started') })
     }
 
     componentWillUnmount()
@@ -72,12 +42,36 @@ export default class Login extends Component
         this.handlerDiscover.remove();
     }
 
+    enableGps = () =>
+    {
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
+        .then(data => this.setState({locationEnable: true}))
+        .catch(err => this.setState({locationEnable: false}))
+    }
+
+    enableBlue = () =>
+    {
+        BleManager.enableBluetooth()
+        .then(() =>  this.setState({bluetoothEnable: true}))
+        .catch(err => this.setState({bluetoothEnable: false}))
+    }
+
+    checkBlueAndGps = () => 
+    {
+        this.interval = setInterval(() =>
+        {
+            if(this.state.bluetoothEnable && this.state.locationEnable)
+                this.scan()
+            else
+                Alert.alert("Ativar","Precisamos do seu bluetooth e gps ativados")     
+            this.enableGps()
+            this.enableBlue()
+        },10000)
+    }
+
     scan = () =>
     {
-        BleManager.scan([], 3, true).then((results) => {
-            console.log(results)
-        }).catch(err => console.log(err))
-        
+        BleManager.scan([], 3, true).then(data => console.log(data)).catch(err => console.log(err))
     }
 
     handleDiscoverPeripheral = async peripheral =>
@@ -92,7 +86,6 @@ export default class Login extends Component
         //if(peripheral.id === 'mac da esp' && peripheral.advertising.serviceUUIDs === 'uuid da esp')
         try
         {
-            
             const dados = await firebase.database().ref(`usersTeste/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
             console.log(dados)
         }
