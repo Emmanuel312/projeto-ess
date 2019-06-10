@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-import { NativeEventEmitter,NativeModules,Alert } from 'react-native'
+import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity } from 'react-native'
 import { Container,AlertText } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import BleManager from 'react-native-ble-manager'
 import firebase from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
-
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-
+//firebase.database().ref('usersTeste').on('value', snap => console.log(snap))
 export default class Login extends Component
 {
     state =
@@ -17,10 +16,13 @@ export default class Login extends Component
         peripherals: new Map(),
         user: null,
         locationEnable : false,
-        bluetoothEnable : false
+        bluetoothEnable : false,
+        teste: null
     }
     async componentDidMount()
     {
+        
+        this.listener = firebase.database().ref('usersTeste').on('value', data => console.log(data))
         const user = await firebase.auth().currentUser
         this.setState({user})
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
@@ -34,14 +36,23 @@ export default class Login extends Component
             this.checkBlueAndGps()
         })
         .catch((error) => { console.log('Module doesnt started') })
+        
+        
+        
     }
-
     componentWillUnmount()
     {
         clearInterval(this.interval);
         this.handlerDiscover.remove();
     }
-
+    /*
+    componentWillMount()
+    {
+        this.listener = firebase.database().ref('usersTeste').once('value').then(snap => console.log(snap)).catch(console.log)
+        //console.log(listener)
+        
+    }
+    */
     enableGps = () =>
     {
         RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
@@ -62,8 +73,8 @@ export default class Login extends Component
         {
             if(this.state.bluetoothEnable && this.state.locationEnable)
                 this.scan()
-            else
-                Alert.alert("Ativar","Precisamos do seu bluetooth e gps ativados")     
+            //else
+                //Alert.alert("Ativar","Precisamos do seu bluetooth e gps ativados")     
             this.enableGps()
             this.enableBlue()
         },10000)

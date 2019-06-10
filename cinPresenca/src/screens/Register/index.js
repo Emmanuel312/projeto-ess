@@ -12,6 +12,7 @@ export default class Login extends Component
         password : '',
         confirmPassword : '',
     }
+   
     handleRegister = async () =>
     {
         const {cpf,email,password,confirmPassword} = this.state
