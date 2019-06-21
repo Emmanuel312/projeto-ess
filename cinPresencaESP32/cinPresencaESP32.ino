@@ -7,22 +7,22 @@
 
 //Endereco Banco de dados
 
-#define FIREBASE_HOST ""
+#define FIREBASE_HOST "cinpresenca.firebaseio.com"
 
 //Chave do Banco de dados
-#define FIREBASE_AUTH ""
+#define FIREBASE_AUTH "6VyOmxnzAvPneHE7iJBaCCNvFyh4pgPICpGEvi5q"
 
 //Nome rede wifi
-#define WIFI_SSID ""
+#define WIFI_SSID "EMMANOEL_NET"
 //Senha rede wifi
-#define WIFI_PASSWORD ""
+#define WIFI_PASSWORD "apocalipse16"
 
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 //Tempo em que o uuid Fica em operação em minutos
-#define Tempo 5
+#define Tempo 10
 
 //Define Firebase Data object
 FirebaseData firebaseData;
@@ -31,7 +31,7 @@ FirebaseData firebaseData;
 void appendNewUUID(){
   
     String jsonStr = "{\"uuid""\":""\"" + String(uuidStr)+ "\"}";
-    String path = "/esps/mac_da_esp";
+    String path = "/esps/mac_da_esp/B4:E6:2D:B2:33:43";
 
     if(Firebase.pushJSON(firebaseData, path,jsonStr)){
       String pathTimeStamp = path +"/" + firebaseData.pushName() + "/TimeStamp";
@@ -41,7 +41,7 @@ void appendNewUUID(){
 
 }
 
-void createAdvertising(int intervalToStartAdvertising = 2000, int timeOfAdvertising = 5000){
+void createAdvertising(int intervalToStartAdvertising = 2000, int timeOfAdvertising = 60*1000){
 
   genUUID();
   Serial.println("A");

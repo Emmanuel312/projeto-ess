@@ -62,6 +62,8 @@
 		5D72BE6CB29F4D1A948382D8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F8F083DD70242288A2E2D59 /* Octicons.ttf */; };
 		4323F454ED8D4DD292732D5F /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC6F136BB6A14F14ABC06F15 /* SimpleLineIcons.ttf */; };
 		5A0B7988181E4596AF77D6FD /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 577D617D516D430AB6E22B87 /* Zocial.ttf */; };
+		CC310A54AA7841BBAC14A9C8 /* libRNBluetoothManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 677EE5A5263D448CAA46F8FD /* libRNBluetoothManager.a */; };
+		220BA9C7BF1145E1BD8D1D66 /* libDPMGpsState.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8611586762794A8197C5C409 /* libDPMGpsState.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,6 +399,10 @@
 		2F8F083DD70242288A2E2D59 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AC6F136BB6A14F14ABC06F15 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		577D617D516D430AB6E22B87 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		122644765C3F47DDA5E6E976 /* RNBluetoothManager.xcodeproj */ = {isa = PBXFileReference; name = "RNBluetoothManager.xcodeproj"; path = "../node_modules/react-native-bluetooth-status/ios/RNBluetoothManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		677EE5A5263D448CAA46F8FD /* libRNBluetoothManager.a */ = {isa = PBXFileReference; name = "libRNBluetoothManager.a"; path = "libRNBluetoothManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		347B71D0E7644B49AB3B0834 /* DPMGpsState.xcodeproj */ = {isa = PBXFileReference; name = "DPMGpsState.xcodeproj"; path = "../node_modules/react-native-gps-state/ios/DPMGpsState.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8611586762794A8197C5C409 /* libDPMGpsState.a */ = {isa = PBXFileReference; name = "libDPMGpsState.a"; path = "libDPMGpsState.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -430,6 +436,8 @@
 				D988BDAACA0849B4B85259D5 /* libRNGestureHandler.a in Frameworks */,
 				61893C31BB3A443C9E34B860 /* libBVLinearGradient.a in Frameworks */,
 				2397B9A0E65D4B609B200424 /* libRNVectorIcons.a in Frameworks */,
+				CC310A54AA7841BBAC14A9C8 /* libRNBluetoothManager.a in Frameworks */,
+				220BA9C7BF1145E1BD8D1D66 /* libDPMGpsState.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,6 +634,8 @@
 				8E0B75899335495B95769E8F /* RNGestureHandler.xcodeproj */,
 				25E5D33AF71D410D869B2169 /* BVLinearGradient.xcodeproj */,
 				BEAF5DB392524614A80F2928 /* RNVectorIcons.xcodeproj */,
+				122644765C3F47DDA5E6E976 /* RNBluetoothManager.xcodeproj */,
+				347B71D0E7644B49AB3B0834 /* DPMGpsState.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1294,6 +1304,8 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cinPresenca.app/cinPresenca";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1302,6 +1314,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Debug;
@@ -1323,6 +1337,8 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cinPresenca.app/cinPresenca";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1331,6 +1347,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Release;
@@ -1358,6 +1376,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Debug;
@@ -1384,6 +1404,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Release;
@@ -1413,6 +1435,8 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1421,6 +1445,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Debug;
@@ -1450,6 +1476,8 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1458,6 +1486,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Release;
@@ -1486,6 +1516,8 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1494,6 +1526,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Debug;
@@ -1522,6 +1556,8 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1530,6 +1566,8 @@
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-bluetooth-status\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gps-state\ios",
 				);
 			};
 			name = Release;

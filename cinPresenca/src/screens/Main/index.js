@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity } from 'react-native'
+import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity,AppState } from 'react-native'
 import { Container,AlertText } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import BleManager from 'react-native-ble-manager'
-import firebase from 'react-native-firebase';
+import firebase from 'react-native-firebase'
 import * as Animatable from 'react-native-animatable'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
 const BleManagerModule = NativeModules.BleManager;
@@ -17,13 +17,15 @@ export default class Login extends Component
         user: null,
         locationEnable : false,
         bluetoothEnable : false,
-        teste: null
+        uuid: '',
+        appState: ''
     }
     async componentDidMount()
     {
-        
-        this.listener = firebase.database().ref('usersTeste').on('value', data => console.log(data))
+        //AppState.addEventListener('change', this.handleAppStateChange);
+        this.listener = firebase.database().ref('esps/mac_da_esp/B4:E6:2D:B2:33:43').on('child_added', this.handleListener)
         const user = await firebase.auth().currentUser
+        console.log(user)
         this.setState({user})
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
         await this.enableGps()
@@ -36,9 +38,6 @@ export default class Login extends Component
             this.checkBlueAndGps()
         })
         .catch((error) => { console.log('Module doesnt started') })
-        
-        
-        
     }
     componentWillUnmount()
     {
@@ -53,6 +52,29 @@ export default class Login extends Component
         
     }
     */
+   /*
+   handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+      
+      BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
+        console.log('Connected peripherals: ' + peripheralsArray.length);
+      });
+      
+    }
+    this.setState({appState: nextAppState});
+  }
+  */
+
+   handleListener = snap =>
+   {
+       console.log(snap.val())
+        this.setState({ uuid: snap.val().uuid })
+        if(this.state.bluetoothEnable && this.state.locationEnable)
+            this.scan()
+
+   }
+
     enableGps = () =>
     {
         RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({interval: 10000, fastInterval: 5000})
@@ -70,14 +92,10 @@ export default class Login extends Component
     checkBlueAndGps = () => 
     {
         this.interval = setInterval(() =>
-        {
-            if(this.state.bluetoothEnable && this.state.locationEnable)
-                this.scan()
-            //else
-                //Alert.alert("Ativar","Precisamos do seu bluetooth e gps ativados")     
+        {     
             this.enableGps()
             this.enableBlue()
-        },10000)
+        },60*1000)
     }
 
     scan = () =>
@@ -95,14 +113,18 @@ export default class Login extends Component
             this.setState({ peripherals })   
         }
         //if(peripheral.id === 'mac da esp' && peripheral.advertising.serviceUUIDs === 'uuid da esp')
-        try
+        if(peripheral.id === 'B4:E6:2D:B2:33:43')
         {
-            const dados = await firebase.database().ref(`usersTeste/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
-            console.log(dados)
-        }
-        catch(err)
-        {
-            console.log(err)
+            try
+            {
+                
+                const dados = await firebase.database().ref(`users/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
+                console.log(dados)
+            }
+            catch(err)
+            {
+                console.log(err)
+            }
         }
     }
     render()
