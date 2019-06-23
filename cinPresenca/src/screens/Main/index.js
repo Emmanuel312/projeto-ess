@@ -23,7 +23,7 @@ export default class Login extends Component
     async componentDidMount()
     {
         //AppState.addEventListener('change', this.handleAppStateChange);
-        this.listener = firebase.database().ref('esps/mac_da_esp/B4:E6:2D:B2:33:43').on('child_added', this.handleListener)
+        this.listener = firebase.database().ref('esps/B4:E6:2D:B2:33:43').endAt().limitToLast(1).on('child_added', this.handleListener)
         const user = await firebase.auth().currentUser
         console.log(user)
         this.setState({user})
@@ -105,6 +105,7 @@ export default class Login extends Component
 
     handleDiscoverPeripheral = async peripheral =>
     {
+        console.log(peripheral)
         const { peripherals } = this.state
         if (!peripherals.has(peripheral.id))
         {
@@ -113,12 +114,13 @@ export default class Login extends Component
             this.setState({ peripherals })   
         }
         //if(peripheral.id === 'mac da esp' && peripheral.advertising.serviceUUIDs === 'uuid da esp')
-        if(peripheral.id === 'B4:E6:2D:B2:33:43')
+        console.log(peripheral.id === 'B4:E6:2D:B2:33:43',peripheral.advertising.serviceUUIDs === 'uuid da esp')
+        if(peripheral.id === 'B4:E6:2D:B2:33:43' &&  peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
         {
             try
             {
                 
-                const dados = await firebase.database().ref(`users/${this.state.user.uid}/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs})
+                const dados = await firebase.database().ref(`users/${this.state.user.uid}/esps_detectadas/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs[0]})
                 console.log(dados)
             }
             catch(err)
