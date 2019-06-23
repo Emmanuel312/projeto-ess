@@ -10,10 +10,10 @@ const MainBottom = createBottomTabNavigator(
 
 const Routes = createSwitchNavigator(
 {   
-    
-    MainBottom,
-    Login,
     Register,
+    Login,
+    MainBottom,
+    
    
 })
 

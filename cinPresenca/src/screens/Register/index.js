@@ -21,7 +21,7 @@ export default class Login extends Component
             try
             {
                 const create = await firebase.auth().createUserWithEmailAndPassword(email,password)
-                firebase.database().ref('registerUsers/' + create.user._user.uid).set({_id:create.user._user.uid,login:email.split('@')[0],cpf,email})
+                firebase.database().ref(`users/${create.user._user.uid}`).set({login:email.split('@')[0],cpf,email})
                 .then(data => this.props.navigation.navigate('Login'))
                 .catch(err => console.log(err))
                 

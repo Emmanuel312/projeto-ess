@@ -31,7 +31,7 @@ FirebaseData firebaseData;
 void appendNewUUID(){
   
     String jsonStr = "{\"uuid""\":""\"" + String(uuidStr)+ "\"}";
-    String path = "/esps/mac_da_esp/B4:E6:2D:B2:33:43";
+    String path = "/esps/B4:E6:2D:B2:33:43";
 
     if(Firebase.pushJSON(firebaseData, path,jsonStr)){
       String pathTimeStamp = path +"/" + firebaseData.pushName() + "/TimeStamp";

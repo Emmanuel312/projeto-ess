@@ -71,7 +71,11 @@ export default class Login extends Component
        console.log(snap.val())
         this.setState({ uuid: snap.val().uuid })
         if(this.state.bluetoothEnable && this.state.locationEnable)
+        {
+            this.setState({peripherals: new Map()})
             this.scan()
+        }
+            
 
    }
 
@@ -112,22 +116,23 @@ export default class Login extends Component
             console.log('Got ble peripheral', peripheral);
             peripherals.set(peripheral.id, peripheral);
             this.setState({ peripherals })   
+
+            console.log(peripheral.id === 'B4:E6:2D:B2:33:43',peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
+            if(peripheral.id === 'B4:E6:2D:B2:33:43' &&  peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
+            {
+                try
+                {
+                    const dados = await firebase.database().ref(`users/${this.state.user.uid}/esps_detectadas/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs[0]})
+                    console.log(dados)
+                }
+                catch(err)
+                {
+                    console.log(err)
+                }
+            }
         }
         //if(peripheral.id === 'mac da esp' && peripheral.advertising.serviceUUIDs === 'uuid da esp')
-        console.log(peripheral.id === 'B4:E6:2D:B2:33:43',peripheral.advertising.serviceUUIDs === 'uuid da esp')
-        if(peripheral.id === 'B4:E6:2D:B2:33:43' &&  peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
-        {
-            try
-            {
-                
-                const dados = await firebase.database().ref(`users/${this.state.user.uid}/esps_detectadas/${peripheral.id}`).set({timestamp: Date.now(),uuid:peripheral.advertising.serviceUUIDs[0]})
-                console.log(dados)
-            }
-            catch(err)
-            {
-                console.log(err)
-            }
-        }
+       
     }
     render()
     {
