@@ -2,6 +2,8 @@ package com.cinpresenca;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import br.com.dopaminamob.gpsstate.GPSStatePackage;
+import com.solinor.bluetoothstatus.RNBluetoothManagerPackage;
 import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -10,6 +12,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage; 
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import it.innove.BleManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,6 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GPSStatePackage(),
+            new RNBluetoothManagerPackage(),
             new RNAndroidLocationEnablerPackage(),
             new VectorIconsPackage(),
             new LinearGradientPackage(),
@@ -39,7 +44,8 @@ public class MainApplication extends Application implements ReactApplication {
             new BleManagerPackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseFirestorePackage(),
-            new RNFirebaseDatabasePackage()
+            new RNFirebaseDatabasePackage(),
+            new RNFirebaseMessagingPackage()
       );
     }
 

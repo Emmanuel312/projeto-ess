@@ -8,7 +8,7 @@ import * as Animatable from 'react-native-animatable'
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler'
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-//firebase.database().ref('usersTeste').on('value', snap => console.log(snap))
+
 export default class Login extends Component
 {
     state =
@@ -20,9 +20,9 @@ export default class Login extends Component
         uuid: '',
         appState: ''
     }
+    
     async componentDidMount()
     {
-       
         this.listener = firebase.database().ref('esps/B4:E6:2D:B2:33:43').endAt().limitToLast(1).on('child_added', this.handleListener)
         const user = await firebase.auth().currentUser
         console.log(user)
@@ -43,30 +43,19 @@ export default class Login extends Component
     {
         clearInterval(this.interval);
         this.handlerDiscover.remove();
+        this.onTokenRefreshListener();
     }
-    /*
-    componentWillMount()
-    {
-        this.listener = firebase.database().ref('usersTeste').once('value').then(snap => console.log(snap)).catch(console.log)
-        //console.log(listener)
-        
-    }
-    */
-   
-  
 
-   handleListener = snap =>
-   {
-       console.log(snap.val())
+    handleListener = snap =>
+    {
+        console.log(snap.val())
         this.setState({ uuid: snap.val().uuid })
         if(this.state.bluetoothEnable && this.state.locationEnable)
         {
             this.setState({peripherals: new Map()})
             this.scan()
         }
-            
-
-   }
+    }
 
     enableGps = () =>
     {
