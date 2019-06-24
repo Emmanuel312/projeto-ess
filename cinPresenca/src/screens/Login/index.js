@@ -13,6 +13,20 @@ export default class Login extends Component
         loading: false,
     }
 
+    async componentDidMount()
+    {
+        const user = await firebase.auth().currentUser
+        if(user)
+        {
+            console.log('foi')
+            this.props.navigation.navigate('MainBottom')
+        }
+        else
+        {
+            console.log('nao foi')
+        }
+    }
+    
     handleLogin = async () =>
     {
         this.setState({email:'',password:''})
@@ -22,10 +36,12 @@ export default class Login extends Component
             const { email,password } = this.state
 
             const user = await firebase.auth().signInWithEmailAndPassword(email,password)
+            console.log(user)
             this.setState({loading:false})
             if(user)
             {
-                setTimeout(() => this.props.navigation.navigate('Main'),250)
+                console.log('foi')
+                 this.props.navigation.navigate('MainBottom')
             }
                 
         }

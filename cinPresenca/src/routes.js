@@ -2,6 +2,8 @@ import { createAppContainer,createSwitchNavigator, createBottomTabNavigator } fr
 import Login from './screens/Login'
 import Register from './screens/Register'
 import Main from './screens/Main'
+import firebase from 'react-native-firebase'
+
 
 const MainBottom = createBottomTabNavigator(
 {
@@ -10,11 +12,11 @@ const MainBottom = createBottomTabNavigator(
 
 const Routes = createSwitchNavigator(
 {   
-    Register,
     Login,
+    Register,
     MainBottom,
-    
-   
 })
+
+
 
 export default createAppContainer(Routes)

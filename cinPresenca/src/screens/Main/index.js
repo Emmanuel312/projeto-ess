@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity,AppState } from 'react-native'
+import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity } from 'react-native'
 import { Container,AlertText } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import BleManager from 'react-native-ble-manager'
@@ -22,7 +22,7 @@ export default class Login extends Component
     }
     async componentDidMount()
     {
-        //AppState.addEventListener('change', this.handleAppStateChange);
+       
         this.listener = firebase.database().ref('esps/B4:E6:2D:B2:33:43').endAt().limitToLast(1).on('child_added', this.handleListener)
         const user = await firebase.auth().currentUser
         console.log(user)
@@ -52,19 +52,8 @@ export default class Login extends Component
         
     }
     */
-   /*
-   handleAppStateChange(nextAppState) {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('App has come to the foreground!')
-      
-      BleManager.getConnectedPeripherals([]).then((peripheralsArray) => {
-        console.log('Connected peripherals: ' + peripheralsArray.length);
-      });
-      
-    }
-    this.setState({appState: nextAppState});
-  }
-  */
+   
+  
 
    handleListener = snap =>
    {
@@ -109,7 +98,7 @@ export default class Login extends Component
 
     handleDiscoverPeripheral = async peripheral =>
     {
-        console.log(peripheral)
+        
         const { peripherals } = this.state
         if (!peripherals.has(peripheral.id))
         {
