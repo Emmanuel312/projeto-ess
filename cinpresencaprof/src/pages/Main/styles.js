@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import image from '../../assets/images/presenca.jpg'
 
 
 export const Menu = styled.header`
@@ -30,20 +31,21 @@ export const TextMenu = styled.span`
 `;
 
 export const Main = styled.main`
-    position: relative;
-`;
-
-export const Image = styled.img`
+    display: flex;
     width: 100%;
     height: 520px;
+    background-image: url(${image});
     opacity: 0.4;
+    background-repeat: no-repeat;
+    background-size: cover;
+`;
+export const MainContent = styled.div`
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px 30px
 `
 
-export const MessageDiv = styled.div` 
-    position: absolute;
-    top: 60px;
-    left: 190px;
-`;
 
 export const Message = styled.span`
     @import url('https://fonts.googleapis.com/css?family=Snippet&display=swap');

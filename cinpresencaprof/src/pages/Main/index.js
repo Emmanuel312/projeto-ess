@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Menu,MenuContent,MenuContentRight,TextMenu,Main,Image,MessageDiv,Message,Footer } from './styles'
+import { Menu,MenuContent,MenuContentRight,TextMenu,Main,Message,Footer,MainContent } from './styles'
 import image from '../../assets/images/presenca.jpg'
 
 export default function App()
@@ -23,12 +23,13 @@ export default function App()
                 </MenuContentRight>
             </MenuContent>
             </Menu>
+
             <Main>
-                <Image src={image}/>
-                <MessageDiv>
+                <MainContent>
                     <Message>Sua gestão de presença em um só lugar</Message>
-                </MessageDiv>
+                </MainContent>
             </Main>
+
             <Footer>
                 <span style={{color:'#fff'}}>Criar alguma coisa aqui</span>
             </Footer>
