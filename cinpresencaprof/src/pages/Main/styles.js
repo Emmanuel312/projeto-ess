@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import image from '../../assets/images/presenca.jpg'
 
-
 export const Menu = styled.header`
     background: #50B4F2;
     height: 50px;
@@ -58,5 +57,5 @@ export const Footer = styled.footer`
     display: flex;
     align-items: flex-end;
     background: #151515;
-    height: 59px;
+    height: 67px;
 `;

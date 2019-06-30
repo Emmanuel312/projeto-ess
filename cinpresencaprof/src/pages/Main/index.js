@@ -6,7 +6,7 @@ import image from '../../assets/images/presenca.jpg'
 export default function App()
 {    
     return (
-        <section>
+        <section style={{background: '#151515'}}>
             <Menu>
             <MenuContent>
                 <Link to="/" style={{ textDecoration: 'none' }}>
