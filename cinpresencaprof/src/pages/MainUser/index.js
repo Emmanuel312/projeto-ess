@@ -46,7 +46,7 @@ export default class MainUser extends Component
                     fim: new Date(aula.fim),
                 }
             })})
-        
+            
             aulas = aulas.map(aula =>
             {
                 return {
@@ -79,7 +79,7 @@ export default class MainUser extends Component
                 type: 'success',
                 title: 'Nice...',
                 text: 'Sua aula foi cadastrada com sucesso!',
-                footer: '<a href>Why do I have this issue?</a>'
+                footer: 'Sua aula vai aparecer na lista em instantes'
             })
             this.setState({ start: '',end:'',name:'' })
             
@@ -126,10 +126,6 @@ export default class MainUser extends Component
             </Container>
         </Modal>
     )
-    showAlert = () =>
-    {
-        
-    }
         
     render()
     {
@@ -151,7 +147,7 @@ export default class MainUser extends Component
                         
                                 {this.state.aulas.map(aula => {
                                     return (
-                                        <Aula key={Math.random()} disabled={true} nome_aula={aula.nome_aula} inicio={aula.inicio} fim={aula.fim}/>
+                                        <Aula key={Math.random()} disabled={false} nome_aula={aula.nome_aula} inicio={aula.inicio} fim={aula.fim}/>
                                     )
                                 })}
                         </List>
