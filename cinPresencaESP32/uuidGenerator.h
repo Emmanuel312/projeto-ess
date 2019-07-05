@@ -12,6 +12,7 @@ int randomNumber(){
 }
 
 void genUUID(){
+  srand(time(NULL));
   for(int i= 0;i<16;i++)
     vet[i] = randomNumber();
   sprintf(uuidStr,"%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",vet[0], vet[1], vet[2], vet[3], vet[4], vet[5], vet[6], vet[7], vet[8], vet[9],vet[10],vet[11],vet[12],
