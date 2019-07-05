@@ -91,12 +91,12 @@ export default class Login extends Component
         const { peripherals } = this.state
         if (!peripherals.has(peripheral.id))
         {
-            console.log('Got ble peripheral', peripheral);
+            //console.log('Got ble peripheral', peripheral);
             peripherals.set(peripheral.id, peripheral);
             this.setState({ peripherals })   
 
-            console.log(peripheral.id === 'B4:E6:2D:B2:33:43',peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
-            if(peripheral.id === 'B4:E6:2D:B2:33:43' &&  peripheral.advertising.serviceUUIDs[0] === this.state.uuid)
+            if(peripheral.id === 'B4:E6:2D:B2:33:43') console.log(peripheral)
+            if(peripheral.id === 'B4:E6:2D:B2:33:43')
             {
                 try
                 {

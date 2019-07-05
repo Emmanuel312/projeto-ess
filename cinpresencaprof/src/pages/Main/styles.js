@@ -3,14 +3,14 @@ import image from '../../assets/images/presenca.jpg'
 
 export const Menu = styled.header`
     background: #50B4F2;
-    height: 50px;
+    height: 8vh;
 `;
 
 export const MenuContent = styled.div`
     width: 100%;
     max-width: 980px;
     margin: 0 auto;
-    height: 50px;
+    height: 8vh;
     padding: 0 30px;
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@ export const TextMenu = styled.span`
 export const Main = styled.main`
     display: flex;
     width: 100%;
-    height: 520px;
+    height: 80vh;
     background-image: url(${image});
     opacity: 0.4;
     background-repeat: no-repeat;
@@ -57,5 +57,5 @@ export const Footer = styled.footer`
     display: flex;
     align-items: flex-end;
     background: #151515;
-    height: 67px;
+    height: 12vh;
 `;
