@@ -35,7 +35,7 @@ void appendNewUUID(){
     String path = "/esps/B4:E6:2D:B2:33:43";
 
     if(Firebase.pushJSON(firebaseData, path,jsonStr)){
-      String pathTimeStamp = path +"/" + firebaseData.pushName() + "/TimeStamp";
+      String pathTimeStamp = path +"/" + firebaseData.pushName() + "/timestamp";
       Firebase.setTimestamp(firebaseData, pathTimeStamp);
     }else
       Serial.println("error");
