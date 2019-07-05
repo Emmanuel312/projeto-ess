@@ -7,3 +7,4 @@ const firebaseApp = admin.initializeApp({
 
 // Export the database for components to use.
 export const db = firebaseApp.database()
+export const bucket = admin.storage().bucket();

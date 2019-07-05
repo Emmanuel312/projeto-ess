@@ -1,7 +1,10 @@
 import * as functions from 'firebase-functions';
 //import { DataSnapshot } from 'firebase-functions/lib/providers/database';
-import {db} from './firebase'
+import {db, bucket} from './firebase'
 import { database } from 'firebase-admin';
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
 
 export const onEspDetected = functions.database
 .ref('users/{userId}/esps_detectadas/{mac_esp_detectado}')
@@ -35,6 +38,86 @@ export const onEspDetected = functions.database
             return null;
         }
     }
+})
+
+export const requestReportOfClass = functions.https.onCall(async (data, context) => {
+    const classId = data.text;
+    console.log(classId);
+    const classPresenceReport = await generatePresenceJson(classId);
+    const fileName = classId;
+
+    const tempFilePath = path.join(os.tmpdir(), fileName);
+    const filePathOnStorage = 'classReports/' + fileName;
+
+    await fs.writeFile(tempFilePath + ".json", classPresenceReport);
+
+    bucket.upload(tempFilePath, {
+        destination: filePathOnStorage,
+    }, (err, file) => {
+        if(!err) {
+            return {
+                pathToClassPresenceReport: filePathOnStorage,
+            };
+        } else {
+            return {
+                error: err.message,
+            };
+        }
+    });
+})
+
+async function generatePresenceJson(classId: string) {
+    const pathToStudents = 'agenda' + '/' + classId + '/' + '/alunos_presentes';
+    await db.ref(pathToStudents)
+    .orderByKey()
+    .once('value')
+    .then(async (snapshot) => {
+        if(snapshot) {
+            const userPresenceArray: { name: string; cpf: string; presenca: string; }[] = [];
+            const snapshotChilds = snapshotToArray(snapshot);
+            snapshotChilds.forEach(async (element) => {
+                const userPresence = {
+                    name: 'Aluno não identificado',
+                    cpf: '00000000000',
+                    presenca: 'Indefinida'
+                };
+                if (element.val().quantidade_parcial_presencas >= 42) {
+                    userPresence.presenca = 'Presente';
+                } else {
+                    userPresence.presenca = 'Faltou';
+                }
+                const userPath = 'users' + '/' + element.val().referencia
+                await db.ref(userPath)
+                .orderByKey()
+                .once('value')
+                .then(async (snapshot2) => {
+                    if(snapshot2) {
+                        const userValue = snapshot2.val();
+                        userPresence.name = userValue.nome;
+                        userPresence.cpf = userValue.cpf;
+                        userPresenceArray.push(userPresence);
+                    } else {
+                        console.log('User query failed');
+                    }
+                })
+            })
+            const reportString = JSON.stringify(userPresenceArray);
+            console.log(reportString);
+            return reportString;
+        } else {
+            console.log('Class query failed');
+            return null;
+        }
+    });
+    return null;
+}
+
+export const requestReportOfClassTest = functions.https.onCall((data, context) => {
+    const classId = data.text;
+    console.log(classId);
+    return {
+        received: classId,
+    };
 })
 
 async function writePartialPresenceOn (alunoId: string, timestamp: number) {
@@ -92,8 +175,8 @@ async function writePartialPresenceOn (alunoId: string, timestamp: number) {
 }
 
 async function findEspWithUuidOnTimestamp (uuid: string, timestamp: number, macEsp: string) {
-    const minRange = timestamp - 900000;
-    const maxRange = timestamp + 899999;
+    const minRange = timestamp - 60000;
+    const maxRange = timestamp + 59999;
     const ref = 'esps/' + macEsp;
     const query = await db.ref(ref)
     .orderByChild('timestamp')
@@ -123,10 +206,10 @@ async function findEspWithUuidOnTimestamp (uuid: string, timestamp: number, macE
 }
 
 function snapshotToArray(snapshot: database.DataSnapshot) {
-    var returnArr: database.DataSnapshot[] = [];
+    const returnArr: database.DataSnapshot[] = [];
 
     snapshot.forEach((childSnapshot) => {
-        var item = childSnapshot;
+        const item = childSnapshot;
         //item.key = childSnapshot.key;
         returnArr.push(item);
         return true;
