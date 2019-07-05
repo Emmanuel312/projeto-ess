@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Menu,MenuContent,MenuContentRight,TextMenu,Main,Message,Footer,MainContent } from './styles'
-import image from '../../assets/images/presenca.jpg'
 
 export default function App()
 {    
