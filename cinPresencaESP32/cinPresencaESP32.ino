@@ -1,3 +1,4 @@
+ //Código Com RESET de um em um minuto
 #include <WiFi.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
@@ -13,16 +14,16 @@
 #define FIREBASE_AUTH "6VyOmxnzAvPneHE7iJBaCCNvFyh4pgPICpGEvi5q"
 
 //Nome rede wifi
-#define WIFI_SSID "EMMANOEL_NET"
+#define WIFI_SSID "CINGUESTS"
 //Senha rede wifi
-#define WIFI_PASSWORD "apocalipse16"
+#define WIFI_PASSWORD "acessocin"
 
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 //Tempo em que o uuid Fica em operação em minutos
-#define Tempo 10
+#define Tempo 5
 
 //Define Firebase Data object
 FirebaseData firebaseData;
@@ -41,25 +42,6 @@ void appendNewUUID(){
 
 }
 
-void createAdvertising(int intervalToStartAdvertising = 2000, int timeOfAdvertising = 60*1000){
-
-  genUUID();
-  Serial.println("A");
-  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
-  pAdvertising->addServiceUUID(uuidStr);
-  pAdvertising->setScanResponse(true);
-  pAdvertising->setMinPreferred(0x06);
-  pAdvertising->setMinPreferred(0x12);
-  BLEDevice::startAdvertising();
-  Serial.println("B");
-  delay(intervalToStartAdvertising);
-    
-  appendNewUUID();
-   
-  Serial.println(uuidStr);
-  delay(timeOfAdvertising);
-  
-}
 
 
 void setup() {
@@ -83,26 +65,43 @@ void setup() {
   Firebase.setReadTimeout(firebaseData, 1000 * 60);
 
   Firebase.setwriteSizeLimit(firebaseData, "tiny");
-  
+  genUUID();  
   delay(5000);
-  
-  BLEDevice::init("Long name works now");
+
+
+ int intervalToStartAdvertising = 10000;
+ int timeOfAdvertising = 50000;
+
+
+  BLEDevice::init(uuidStr);
   BLEServer *pServer = BLEDevice::createServer();
-  BLEService *pService = pServer->createService(SERVICE_UUID);
+  BLEService *pService = pServer->createService(uuidStr);
   BLECharacteristic *pCharacteristic = pService->createCharacteristic(
-                                         CHARACTERISTIC_UUID,
+                                         uuidStr,
                                          BLECharacteristic::PROPERTY_READ |
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
 
-  pCharacteristic->setValue("Hello World says Neil");
+  pCharacteristic->setValue(uuidStr);
   pService->start();
+
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(uuidStr);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->setMinPreferred(0x06);
+  pAdvertising->setMinPreferred(0x12);
+  BLEDevice::startAdvertising();
+  Serial.println("B");
+
+  delay(intervalToStartAdvertising);
+  appendNewUUID();
+  Serial.println(uuidStr);
+  delay(timeOfAdvertising);
   
-  Serial.println("Funcionou");
-  delay(5000);
+  ESP.restart();
 }
 
 void loop() {
  
-  createAdvertising();
+  
 }
