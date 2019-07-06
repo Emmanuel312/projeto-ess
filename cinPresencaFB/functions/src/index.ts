@@ -42,6 +42,20 @@ export const onEspDetected = functions.database
 
 export const requestReportOfClass = functions.https.onCall(async (data, context) => {
     const classId = data.text;
+
+    // Checking attribute.
+    if (!(typeof classId === 'string') || classId.length === 0) {
+        // Throwing an HttpsError so that the client gets the error details.
+        throw new functions.https.HttpsError('invalid-argument', 'The function must be called with ' +
+        'one arguments "text" containing the message text to add.');
+    }
+    // Checking that the user is authenticated.
+    if (!context.auth) {
+        // Throwing an HttpsError so that the client gets the error details.
+        throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
+        'while authenticated.');
+    }
+
     console.log(classId);
     const classPresenceReport = await generatePresenceJson(classId);
     const fileName = classId;
@@ -55,10 +69,12 @@ export const requestReportOfClass = functions.https.onCall(async (data, context)
         destination: filePathOnStorage,
     }, (err, file) => {
         if(!err) {
+            fs.unlinkSync(tempFilePath);
             return {
                 pathToClassPresenceReport: filePathOnStorage,
             };
         } else {
+            fs.unlinkSync(tempFilePath);
             return {
                 error: err.message,
             };
