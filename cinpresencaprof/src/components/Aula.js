@@ -66,7 +66,4 @@ function Aula(props)
     )
 }
 
-    
-
-
 export default Aula;
