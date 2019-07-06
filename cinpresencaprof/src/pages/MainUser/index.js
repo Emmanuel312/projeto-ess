@@ -22,7 +22,6 @@ export default class MainUser extends Component
     {
         const user = await firebaseImpl.auth().currentUser
         this.setState({ user })
-        console.log(user)
         this.listener = firebaseDatabase.ref('/users').once('value', this.getUserUid)
         this.listener = firebaseDatabase.ref('/agenda').on('value', this.getAulas)
 
@@ -37,26 +36,15 @@ export default class MainUser extends Component
     {
         if(snapshot.val())
         {
-            var aulas = Object.keys(snapshot.val()).map(key => snapshot.val()[key])
-            /*this.setState({ aulas: aulas.map(aula =>
+            var aulas = Object.keys(snapshot.val()).map(key => 
             {
                 return {
-                    ...aula,
-                    inicio: new Date(aula.inicio),
-                    fim: new Date(aula.fim),
-                }
-            })})
-            
-            aulas = aulas.map(aula =>
-            {
-                return {
-                    ...aula,
-                    inicio: new Date(aula.inicio),
-                    fim: new Date(aula.fim),
+                    ...snapshot.val()[key],
+                    id_aula:key,   
                 }
             })
-            */
-            this.setState({ aulas })
+            this.setState({ aulas: aulas.reverse() })
+            
         }
             
     }
@@ -147,7 +135,7 @@ export default class MainUser extends Component
                         
                                 {this.state.aulas.map(aula => {
                                     return (
-                                        <Aula key={Math.random()} disabled={false} nome_aula={aula.nome_aula} inicio={aula.inicio} fim={aula.fim}/>
+                                        <Aula key={aula.id_aula} disabled={(Date.now() - aula.fim) < 0}  id_aula={aula.id_aula} nome_aula={aula.nome_aula} inicio={aula.inicio} fim={aula.fim}/>
                                     )
                                 })}
                         </List>
