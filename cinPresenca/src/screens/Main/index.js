@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity } from 'react-native'
+import { NativeEventEmitter,NativeModules,Alert,Text,TouchableOpacity,PermissionsAndroid,Platform } from 'react-native'
 import { Container,AlertText } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import BleManager from 'react-native-ble-manager'
@@ -28,19 +28,6 @@ export default class Login extends Component
         console.log(user)
         this.setState({user})
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
-        if (Platform.OS === 'android' && Platform.Version >= 23)
-        {
-            PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
-                if (result) {
-                  console.log("Permission is OK");
-                } else {
-                  PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
-                    if (result) {
-                      console.log("User accept");
-                    } else {
-                      console.log("User refuse");
-                    }
-        });        
         await this.enableGps()
         await this.enableBlue()
 
@@ -51,6 +38,28 @@ export default class Login extends Component
             this.checkBlueAndGps()
         })
         .catch((error) => { console.log('Module doesnt started') })
+        if (Platform.OS === 'android' && Platform.Version >= 23)
+        {
+            PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) =>
+            {
+                if (result)
+                {
+                  console.log("Permission is OK");
+                }
+                else
+                {
+                  PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
+                    if (result) {
+                      console.log("User accept");
+                    } else {
+                      console.log("User refuse");
+                    }
+                  })
+                }
+          })
+        }
+    
+        
     }
     componentWillUnmount()
     {
